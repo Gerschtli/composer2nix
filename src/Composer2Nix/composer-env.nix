@@ -24,7 +24,7 @@ rec {
       mkdir -p $out/bin
       cat > $out/bin/composer <<EOF
       #! ${stdenv.shell} -e
-      exec ${php}/bin/php $out/share/php/composer.phar "\$@"
+      exec ${php}/bin/hhvm $out/share/php/composer.phar "\$@"
       EOF
       chmod +x $out/bin/composer
     '';
@@ -55,7 +55,7 @@ rec {
         name = "reconstructinstalled.php";
         executable = true;
         text = ''
-          #! ${php}/bin/php
+          #! ${php}/bin/hhvm
           <?php
           if(file_exists($argv[1]))
           {
@@ -94,7 +94,7 @@ rec {
         name = "constructbin.php";
         executable = true;
         text = ''
-          #! ${php}/bin/php
+          #! ${php}/bin/hhvm
           <?php
           $composerJSONStr = file_get_contents($argv[1]);
 
@@ -224,8 +224,8 @@ rec {
                   chmod u+w "$realFile"
 
                   # Patch shebang
-                  sed -e "s|#!/usr/bin/php|#!${php}/bin/php|" \
-                      -e "s|#!/usr/bin/env php|#!${php}/bin/php|" \
+                  sed -e "s|#!/usr/bin/php|#!${php}/bin/hhvm|" \
+                      -e "s|#!/usr/bin/env php|#!${php}/bin/hhvm|" \
                       "$realFile" > tmp
                   mv tmp "$realFile"
                   chmod u+x "$realFile"
