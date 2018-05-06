@@ -67,7 +67,7 @@ class CompositionExpression extends NixASTNode
 				"stdenv" => new NixInherit("pkgs"),
 				"writeTextFile" => new NixInherit("pkgs"),
 				"fetchurl" => new NixInherit("pkgs"),
-				"php" => new NixImport(new NixFile("./hhvm.nix")),
+				"php" => new NixAttrReference(new NixExpression("pkgs"), new NixExpression("hhvm")),
 				"unzip" => new NixInherit("pkgs")
 			))
 		), new NixFunInvocation(new NixImport(new NixFile($this->prefixRelativePath($this->outputFile))), array(
